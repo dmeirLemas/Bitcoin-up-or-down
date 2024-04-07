@@ -13,7 +13,7 @@ import pickle
 import mwclient
 
 
-def download_new_wiki_data(date: str) -> None:
+def download_new_wiki_data(date: str):
     print("Downloading")
 
     site = mwclient.Site("en.wikipedia.org")

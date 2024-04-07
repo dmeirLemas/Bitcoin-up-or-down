@@ -54,7 +54,7 @@ def backtest(data, model, predictors, start=1095, step=150):
 
         predictions = predict(train, test, predictors, model)
 
-        # print(precision_score(predictions["Target"], predictions["predictions"]))
+        print(precision_score(predictions["Target"], predictions["predictions"]))
 
         all_preds.append(predictions)
 
