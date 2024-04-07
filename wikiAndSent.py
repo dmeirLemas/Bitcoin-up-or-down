@@ -34,6 +34,8 @@ def load_wiki_data():
     return revs
 
 
+# Delete the model="sentiment-analysis-model"  to download the pretrained model.
+# Then you can save it using pickle
 sentiment_pipeline = pipeline("sentiment-analysis", model="sentiment-analysis-model")
 
 
