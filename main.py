@@ -128,13 +128,35 @@ def main():
         btc_data.download_new_btc_data()
         btc = pd.read_csv("btc_data.csv", index_col=0)
 
-    model = XGBClassifier(random_state=42, learning_rate=0.1, n_estimators=200)
+    model = XGBClassifier(random_state=42, learning_rate=0.2, n_estimators=250)
     btc, predictors = compute_rolling(btc.copy())
 
-    preds = backtest(btc, model, predictors)
+    btc = btc.iloc[3:]
 
-    print(precision_score(preds["Target"], preds["predictions"]))
-    preds.to_csv("preds.csv")
+    frame = -90
+
+    # preds = backtest(btc, model, predictors)
+    model.fit(
+        btc[predictors].iloc[-110 + frame : frame],
+        btc["Target"].iloc[-110 + frame : frame],
+    )
+
+    preds = model.predict(btc[predictors].iloc[frame:])
+
+    test_y = btc["Target"].iloc[frame:]
+
+    index = btc.iloc[frame:].index
+
+    p = pd.DataFrame()
+
+    p["Target"] = test_y
+    p["Pred"] = preds
+
+    p.index = index
+    p.index._name = "Date"
+
+    print(precision_score(p["Target"], p["Pred"]))
+    p.to_csv("p.csv")
 
 
 # %%
